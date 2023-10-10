@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $users = User::all();
+    return view('home', compact("users"));
+})->name("home");
+Route::get('/login', [LoginController::class, "index"])->name("login");
+Route::post('/login', [LoginController::class, "login"]);
