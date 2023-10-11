@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view("login");
     }
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
         $check = $request->only("name", "password");
-        if(Auth::attempt(($check))){
+        if (Auth::attempt(($check))) {
             $users = User::all();
             $request->session()->regenerate();
             return redirect(route("home", compact("users")));
@@ -23,9 +25,10 @@ class LoginController extends Controller
         return back()->withErrors(["message" => "アカウントまたはパスワードが正しくありません"]);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
-        $request->flush();
+        $request->session()->flush();
 
         return redirect(route("login"));
     }

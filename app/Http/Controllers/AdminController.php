@@ -10,4 +10,16 @@ class AdminController extends Controller
     {
         return view("createUser");
     }
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            "name" => "required",
+            "email" => "required|email",
+            "role" => "required",
+            "password" => "required",
+            "confirm" => "required",
+        ]);
+        dd($request);
+        return view("createUser");
+    }
 }

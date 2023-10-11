@@ -24,8 +24,11 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, "index"])->name("login");
 Route::post('/login', [LoginController::class, "login"]);
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('user/create', [AdminController::class, "createUser"])->name('adminCreateUser');
+Route::get('/logout', [LoginController::class, "logout"])->name("logout");
+
+Route::group(['middleware' => ['auth', "can:admin-higher"], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('user/create', [AdminController::class, "createUser"])->name("createUser");
+    Route::post('user/create', [AdminController::class, "storeUser"])->name("createUser");
 });
 
 Route::group(['middleware' => ['auth'],  'as' => 'user.'], function () {
