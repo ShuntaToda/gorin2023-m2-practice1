@@ -49,12 +49,18 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="w-7 input-group-text" id="basic-addon1">Confirm</span>
+                        {{-- ここのinputのnameはpassword_confirmationじゃないとvalidateできない --}}
                         <input type="password" class="form-control" placeholder="Confirm" aria-label="Password"
-                            aria-describedby="basic-addon2" name="confirm">
+                            aria-describedby="basic-addon2" name="password_confirmation">
                     </div>
-                    @error('message')
-                        <div>{{ $errors->first('message') }}</div>
-                    @enderror
+                    @if ($errors)
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    @endif
+                    @if (session('message'))
+                        <div>{{ session('message') }}</div>
+                    @endif
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>

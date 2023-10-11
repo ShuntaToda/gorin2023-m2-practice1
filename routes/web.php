@@ -29,6 +29,7 @@ Route::get('/logout', [LoginController::class, "logout"])->name("logout");
 Route::group(['middleware' => ['auth', "can:admin-higher"], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('user/create', [AdminController::class, "createUser"])->name("createUser");
     Route::post('user/create', [AdminController::class, "storeUser"])->name("createUser");
+    Route::delete('user/{id}', [AdminController::class, "destroy"])->name("delete");
 });
 
 Route::group(['middleware' => ['auth'],  'as' => 'user.'], function () {

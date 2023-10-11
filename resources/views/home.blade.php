@@ -31,6 +31,12 @@
         </header>
         <main class="mt-5">
             @can('admin-higher')
+
+                <div>
+                    @if (session('deleteMessage'))
+                        <div>{{ session('deleteMessage') }}</div>
+                    @endif
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -50,7 +56,9 @@
                                     <div>
                                         <a class="btn btn-sm btn-outline-primary" href="">表示</a>
                                         <a class="btn btn-sm btn-outline-primary" href="">編集</a>
-                                        <a class="btn btn-sm btn-outline-danger" href="">削除</a>
+                                        <form action="{{ route('admin.delete', $user->id) }}" method="DELETE">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
