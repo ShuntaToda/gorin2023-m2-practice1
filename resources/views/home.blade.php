@@ -58,10 +58,12 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="w-full text-center"><a class="btn btn-outline-primary" href="">ユーザー追加</a></div>
                 @endif
             @endauth
         </main>
     </div>
+    {{-- <div>{{ Hash::make("password") }}</div> --}}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>
 
