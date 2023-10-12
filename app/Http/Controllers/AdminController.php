@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        return view("showUser", compact("user"));
+    }
+
     public function createUser()
     {
         return view("createUser");
@@ -33,11 +40,36 @@ class AdminController extends Controller
         return redirect(route("admin.createUser"))->with("message", "登録完了しました");
     }
 
-    public function destroy($id){
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view("editUser", compact("user"));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            "name" => "required",
+            "email" => "required|email",
+            "role" => "required",
+        ]);
+        $user = User::find($id);
+        $user->update([
+            "name" => $request->name,
+            "email" => $request->email,
+            "role" => $request->role,
+            "is_active" => $request->is_active == "on" ? 1 : 0
+        ]);
+
+        return redirect(route("home"))->with("message", "更新完了しました");
+    }
+
+    public function destroy($id)
+    {
         $user = User::find($id);
         $user->delete();
 
-        $deleteMessage = "削除しました。";
-        return redirect(route("home"))->with(compact("deleteMessage"));
+        $message = "削除しました。";
+        return redirect(route("home"))->with(compact("message"));
     }
 }

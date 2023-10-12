@@ -37,7 +37,6 @@
                         <div>{{ $errors->first('message') }}</div>
                     @enderror
                     <div>
-                        <div>admin</div>
                         <div>username: admin</div>
                         <div>password: password</div>
                     </div>
@@ -48,6 +47,9 @@
 
             </div>
 
+            @if (session('message'))
+                <div>{{ session('message') }}</div>
+            @endif
         </main>
     </div>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

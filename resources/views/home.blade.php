@@ -22,6 +22,7 @@
                     <div>
                         <div>name: {{ Auth::user()->name }}</div>
                         <div>role: {{ Auth::user()->role }}</div>
+                        <div>is_active: {{ Auth::user()->is_active }}</div>
                     </div>
                     <a class="btn btn-outline-danger" href="{{ route('logout') }}">logout</a>
                 @else
@@ -33,8 +34,8 @@
             @can('admin-higher')
 
                 <div>
-                    @if (session('deleteMessage'))
-                        <div>{{ session('deleteMessage') }}</div>
+                    @if (session('message'))
+                        <div>{{ session('message') }}</div>
                     @endif
                 </div>
                 <table class="table">
@@ -54,11 +55,18 @@
                                 <td>{{ $user->role }}</td>
                                 <td>
                                     <div>
-                                        <a class="btn btn-sm btn-outline-primary" href="">表示</a>
-                                        <a class="btn btn-sm btn-outline-primary" href="">編集</a>
-                                        <form action="{{ route('admin.delete', $user->id) }}" method="DELETE">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
-                                        </form>
+                                        <a class="btn btn-sm btn-outline-primary"
+                                            href="{{ route('admin.show', $user->id) }}">表示</a>
+                                        <a class="btn btn-sm btn-outline-primary"
+                                            href="{{ route('admin.edit', $user->id) }}">編集</a>
+                                        @if ($user->role != 'admin')
+                                            <form method="POST" action="{{ route('admin.delete', $user->id) }}"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
