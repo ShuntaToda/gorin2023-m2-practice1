@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +27,12 @@ Route::post('/login', function (Request $request) {
     $check = $request->only("name", "password");
     if (Auth::attempt(($check))) {
         $request->session()->regenerate();
-        return response()->json(Auth::user());
+        $token = $request->user()->createToken("token");
+        return response()->json([Auth::user(), "token" => $token->plainTextToken]);
     }
     return response()->json(false);
 });
 
-Route::group(["middleware" => ["auth", "can:admin-higher"], "prefix" => "admin"], function () {
+Route::group(["middleware" => ["auth:sanctum", "can:admin-higher"], "prefix" => "admin"], function () {
     Route::get("/user/{id}", [AdminController::class, "show"]);
 });
