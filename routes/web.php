@@ -35,6 +35,6 @@ Route::group(['middleware' => ['auth', "can:admin-higher"], 'prefix' => 'admin',
     Route::put('user/edit/{id}', [AdminController::class, "update"])->name("update");
 });
 
-Route::group(['middleware' => ['auth'],  'as' => 'user.'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-});
+// Route::group(['middleware' => ['auth'],  'as' => 'user.'], function () {
+//     Route::get('/home', 'HomeController@index')->name('home');
+// });
