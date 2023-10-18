@@ -32,6 +32,11 @@ Route::post('/login', function (Request $request) {
     }
     return response()->json(false);
 });
+Route::post('/logout', function (Request $request) {
+    $request->user()->token()->delete();
+    $request->session()->flush();
+    return response()->json(["success" => true]);
+});
 
 Route::group(["middleware" => ["auth:sanctum", "can:admin-higher"], "prefix" => "admin"], function () {
     Route::get("/user/{id}", [AdminController::class, "show"]);
